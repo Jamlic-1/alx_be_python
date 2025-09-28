@@ -4,12 +4,16 @@ def perform_operation(num1, num2, operation):
     """
     Perform a basic arithmetic operation.
     operation must be one of: 'add', 'subtract', 'multiply', 'divide'.
-    Returns a float result for valid operations, or a message for errors.
-    Division by zero returns the string: "Cannot divide by zero"
+    Returns a float result for valid operations.
+    Raises ZeroDivisionError if attempting to divide by zero.
+    Raises ValueError for invalid operations or non-numeric inputs.
     """
     op = str(operation).strip().lower()
-    a = float(num1)
-    b = float(num2)
+    try:
+        a = float(num1)
+        b = float(num2)
+    except Exception:
+        raise ValueError("num1 and num2 must be numbers")
 
     if op == "add":
         return a + b
@@ -19,7 +23,7 @@ def perform_operation(num1, num2, operation):
         return a * b
     if op == "divide":
         if b == 0:
-            return "Cannot divide by zero"
+            raise ZeroDivisionError("division by zero")
         return a / b
 
-    return "Invalid operation"
+    raise ValueError("Invalid operation")
