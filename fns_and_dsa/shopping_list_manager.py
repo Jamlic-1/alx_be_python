@@ -9,19 +9,12 @@ def main():
     shopping_list = []
     while True:
         display_menu()
-        try:
-            choice = int(input("Enter your choice: "))
-        except ValueError:
-            print("Invalid choice. Please enter a number between 1 and 4.")
-            continue
+        choice = int(input("Enter your choice: "))
 
         if choice == 1:
             item = input("Enter item to add: ").strip()
-            if item:
-                shopping_list.append(item)
-                print(f'"{item}" has been added to the shopping list.')
-            else:
-                print("Item name cannot be empty.")
+            shopping_list.append(item)
+            print(f'"{item}" has been added to the shopping list.')
         elif choice == 2:
             item = input("Enter item to remove: ").strip()
             if item in shopping_list:
