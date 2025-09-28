@@ -33,7 +33,7 @@ def main():
             print("Goodbye!")
             break
         else:
-            print("Invalid choice. Please try again.")
+            print("Invalid choice. Please enter a number.")
 
 if __name__ == "__main__":
     main()
