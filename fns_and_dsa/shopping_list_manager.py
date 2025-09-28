@@ -9,31 +9,27 @@ def main():
     shopping_list = []
     while True:
         display_menu()
-        try:
-            choice = int(input("Enter your choice: "))
-        except ValueError:
-            print("Invalid choice. Please enter a number between 1 and 4.")
-            continue
+        choice = input("Enter your choice: ")
 
-        if choice == 1:
+        if choice == '1':
             item = input("Enter item to add: ").strip()
             shopping_list.append(item)
             print(f'"{item}" has been added to the shopping list.')
-        elif choice == 2:
+        elif choice == '2':
             item = input("Enter item to remove: ").strip()
             if item in shopping_list:
                 shopping_list.remove(item)
                 print(f'"{item}" has been removed from the shopping list.')
             else:
                 print(f'"{item}" not found in the shopping list.')
-        elif choice == 3:
+        elif choice == '3':
             if shopping_list:
                 print("Your Shopping List:")
                 for i, it in enumerate(shopping_list, 1):
                     print(f"{i}. {it}")
             else:
                 print("Your shopping list is currently empty.")
-        elif choice == 4:
+        elif choice == '4':
             print("Goodbye!")
             break
         else:
