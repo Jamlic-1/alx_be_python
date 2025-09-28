@@ -5,9 +5,8 @@ def display_menu():
     print("3. View List")
     print("4. Exit")
 
-shopping_list = []
-
 def main():
+    shopping_list = []
     while True:
         display_menu()
         try:
