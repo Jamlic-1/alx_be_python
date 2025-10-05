@@ -7,46 +7,72 @@ class TestSimpleCalculator(unittest.TestCase):
     def setUp(self):
         self.calc = SimpleCalculator()
 
-    def test_add(self):
-        # integers
-        self.assertEqual(self.calc.add(2, 3), 5)
-        self.assertEqual(self.calc.add(-1, 1), 0)
-        self.assertEqual(self.calc.add(0, 0), 0)
-        # floats (exact representable sums)
-        self.assertEqual(self.calc.add(2.5, 0.5), 3.0)
-        # large numbers
-        self.assertEqual(self.calc.add(10**9, 10**9), 2 * 10**9)
+    def test_addition(self):
+        """Test SimpleCalculator.add with ints, floats, zero and large numbers."""
+        cases = [
+            (2, 3, 5),
+            (-1, 1, 0),
+            (0, 0, 0),
+            (2.5, 0.5, 3.0),
+            (10**9, 10**9, 2 * 10**9),
+        ]
+        for a, b, expected in cases:
+            with self.subTest(a=a, b=b):
+                self.assertEqual(self.calc.add(a, b), expected)
 
-    def test_subtract(self):
-        # integers
-        self.assertEqual(self.calc.subtract(5, 3), 2)
-        self.assertEqual(self.calc.subtract(3, 5), -2)
-        self.assertEqual(self.calc.subtract(0, 0), 0)
-        # floats (use almost equal for possible precision)
-        self.assertAlmostEqual(self.calc.subtract(2.5, 1.2), 1.3, places=7)
+    def test_subtraction(self):
+        """Test SimpleCalculator.subtract for normal and edge cases."""
+        cases = [
+            (5, 3, 2),
+            (3, 5, -2),
+            (0, 0, 0),
+            (2.5, 1.2, 1.3),
+        ]
+        for a, b, expected in cases:
+            with self.subTest(a=a, b=b):
+                # Use almost equal for floats to avoid precision issues
+                if isinstance(expected, float):
+                    self.assertAlmostEqual(self.calc.subtract(a, b), expected, places=7)
+                else:
+                    self.assertEqual(self.calc.subtract(a, b), expected)
 
-    def test_multiply(self):
-        # integers and sign
-        self.assertEqual(self.calc.multiply(4, 3), 12)
-        self.assertEqual(self.calc.multiply(-2, 3), -6)
-        # zero
-        self.assertEqual(self.calc.multiply(0, 12345), 0)
-        # floats (exact representable product)
-        self.assertEqual(self.calc.multiply(2.5, 4), 10.0)
-        # large values
-        self.assertEqual(self.calc.multiply(10**6, 10**3), 10**9)
+    def test_multiplication(self):
+        """Test SimpleCalculator.multiply including zero, negatives and large values."""
+        cases = [
+            (4, 3, 12),
+            (-2, 3, -6),
+            (0, 12345, 0),
+            (2.5, 4, 10.0),
+            (10**6, 10**3, 10**9),
+        ]
+        for a, b, expected in cases:
+            with self.subTest(a=a, b=b):
+                if isinstance(expected, float):
+                    self.assertAlmostEqual(self.calc.multiply(a, b), expected, places=7)
+                else:
+                    self.assertEqual(self.calc.multiply(a, b), expected)
 
-    def test_divide(self):
-        # normal divisions (expect floats)
-        self.assertEqual(self.calc.divide(6, 3), 2.0)
-        self.assertEqual(self.calc.divide(7, 2), 3.5)
-        self.assertEqual(self.calc.divide(-9, 3), -3.0)
-        self.assertEqual(self.calc.divide(0, 5), 0.0)
-        # fractional division: use almost equal for 1/3
-        self.assertAlmostEqual(self.calc.divide(1, 3), 1.0/3.0, places=7)
-        # division by zero per implementation should return None
+    def test_division(self):
+        """Test SimpleCalculator.divide for normal divisions (including floats)."""
+        cases = [
+            (6, 3, 2.0),
+            (7, 2, 3.5),
+            (-9, 3, -3.0),
+            (0, 5, 0.0),
+            (1, 3, 1.0/3.0),
+        ]
+        for a, b, expected in cases:
+            with self.subTest(a=a, b=b):
+                # Always compare floats for division
+                result = self.calc.divide(a, b)
+                self.assertIsNotNone(result)
+                self.assertAlmostEqual(result, expected, places=7)
+
+    def test_divide_by_zero(self):
+        """Division by zero should return None as per the provided implementation."""
         self.assertIsNone(self.calc.divide(5, 0))
         self.assertIsNone(self.calc.divide(0, 0))
 
 if __name__ == "__main__":
     unittest.main()
+
